@@ -28,14 +28,6 @@ git push origin v0.2.0
 
 ## Build Outputs
 
-### AppImage (Universal Linux)
-- **File**: `CodeLayer-{version}-x86_64.AppImage`
-- **Usage**:
-  ```bash
-  chmod +x CodeLayer-*.AppImage
-  ./CodeLayer-*.AppImage
-  ```
-
 ### Debian Package
 - **File**: `codelayer_{version}_amd64.deb`
 - **Installation**:
@@ -45,10 +37,15 @@ git push origin v0.2.0
   ```
 
 ### Arch Linux
-For Arch users, you can:
-1. Use the AppImage directly
-2. Convert the .deb using `debtap`
-3. Extract and manually install files
+For Arch users, you can convert the .deb using `debtap`:
+```bash
+# Install debtap if needed
+yay -S debtap
+
+# Convert and install
+debtap codelayer_*.deb
+sudo pacman -U codelayer-*.pkg.tar.zst
+```
 
 ## Installation Examples
 
@@ -73,16 +70,6 @@ debtap codelayer_0.2.0_amd64.deb
 sudo pacman -U codelayer-0.2.0-1-x86_64.pkg.tar.zst
 ```
 
-### Universal (AppImage)
-```bash
-# Download AppImage
-wget https://github.com/humanlayer/humanlayer/releases/download/v0.2.0/CodeLayer-0.2.0-x86_64.AppImage
-chmod +x CodeLayer-0.2.0-x86_64.AppImage
-
-# Run
-./CodeLayer-0.2.0-x86_64.AppImage
-```
-
 ## Nightly vs Stable Builds
 
 ### Stable Builds
@@ -97,16 +84,6 @@ chmod +x CodeLayer-0.2.0-x86_64.AppImage
 - Can be installed alongside stable builds
 
 ## Troubleshooting
-
-### AppImage: "cannot execute: required file not found"
-Install FUSE:
-```bash
-# Ubuntu/Debian
-sudo apt-get install fuse libfuse2
-
-# Arch Linux
-sudo pacman -S fuse2
-```
 
 ### Missing Dependencies
 If the .deb installation fails:
