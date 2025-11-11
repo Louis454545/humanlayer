@@ -281,13 +281,6 @@ jobs:
         env:
           NODE_ENV: "production"
 
-      - name: Upload AppImage artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: humanlayer-wui-linux-appimage
-          path: humanlayer-wui/src-tauri/target/release/bundle/appimage/*.AppImage
-          if-no-files-found: error
-
       - name: Upload deb artifact
         uses: actions/upload-artifact@v4
         with:
@@ -303,7 +296,6 @@ jobs:
           tag_name: ${{ steps.version.outputs.is_stable == 'true' && format('v{0}', steps.version.outputs.release_version) || steps.version.outputs.release_version }}
           name: codelayer-${{ steps.version.outputs.release_version }}
           files: |
-            humanlayer-wui/src-tauri/target/release/bundle/appimage/*.AppImage
             humanlayer-wui/src-tauri/target/release/bundle/deb/*.deb
           draft: false
           prerelease: ${{ steps.version.outputs.is_nightly == 'true' }}
@@ -315,11 +307,6 @@ jobs:
 
             ## Installation
 
-            ### AppImage (Universal Linux)
-            1. Download the `.AppImage` file below
-            2. Make it executable: `chmod +x CodeLayer*.AppImage`
-            3. Run it: `./CodeLayer*.AppImage`
-
             ### Debian/Ubuntu (.deb)
             1. Download the `.deb` file below
             2. Install it: `sudo dpkg -i CodeLayer*.deb`
@@ -327,16 +314,14 @@ jobs:
             4. Launch from your applications menu or run: `codelayer${{ steps.version.outputs.is_nightly == 'true' && '-nightly' || '' }}`
 
             ### Arch Linux
-            For Arch Linux users, you can install from the .deb file using `debtap` or extract the AppImage.
-
-            ## Troubleshooting
-
-            ### AppImage
-            If you have issues running the AppImage, try:
+            For Arch Linux users, you can convert the .deb file using `debtap`:
             ```bash
-            # Make sure FUSE is installed
-            sudo apt-get install fuse libfuse2  # Debian/Ubuntu
-            sudo pacman -S fuse2                # Arch Linux
+            # Install debtap if needed
+            yay -S debtap
+
+            # Convert and install
+            debtap CodeLayer*.deb
+            sudo pacman -U codelayer-*.pkg.tar.zst
             ```
 
             ## Logs
