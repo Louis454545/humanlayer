@@ -29,3 +29,6 @@ store/mock_store.go
 
 # git ignore the built binary for specific platforms.
 hld-darwin-arm64
+hld-linux-*
+hld-dev
+hld-nightly
